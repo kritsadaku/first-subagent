@@ -4,16 +4,22 @@ Minimal FastAPI project.
 
 ## Setup
 
+Install `uv` if it is not already available:
+
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+brew install uv
+```
+
+Create and sync the project environment:
+
+```bash
+uv sync
 ```
 
 ## Run
 
 ```bash
-uvicorn app.main:app --reload
+uv run uvicorn app.main:app --reload
 ```
 
 Open `http://127.0.0.1:8000/` for the welcome response.
@@ -21,7 +27,29 @@ Open `http://127.0.0.1:8000/` for the welcome response.
 ## Test
 
 ```bash
-pytest
+uv run pytest
+```
+
+## Dependency Management
+
+This project uses `uv` with [pyproject.toml](pyproject.toml).
+
+Add a runtime dependency:
+
+```bash
+uv add package-name
+```
+
+Add a test or development dependency:
+
+```bash
+uv add --dev package-name
+```
+
+Refresh the local environment after dependency changes:
+
+```bash
+uv sync
 ```
 
 ## Using Subagents With Codex
@@ -45,7 +73,7 @@ Requirements:
 - Create a basic API with:
   - GET / returning a welcome message
   - GET /health returning {"status": "ok"}
-- Add requirements.txt or pyproject.toml.
+- Add pyproject.toml for uv.
 - Add README.md with setup and run instructions.
 - Add a basic test if appropriate.
 - Run tests if possible.
@@ -68,7 +96,7 @@ Add role-specific instructions directly in your prompt when you want tighter con
 Subagent instructions:
 - Explorer: inspect only; do not edit files.
 - Planner: prefer the simplest structure that satisfies the requirements.
-- Implementer: only edit app/, tests/, README.md, requirements.txt, and .gitignore.
+- Implementer: only edit app/, tests/, README.md, pyproject.toml, uv.lock, and .gitignore.
 - Reviewer: report findings first with file and line references.
 ```
 
@@ -87,5 +115,6 @@ Tips:
 - Keep each subagent task small and specific.
 - Give implementers clear file ownership to avoid conflicting edits.
 - Ask reviewers to focus on correctness, missing tests, and unclear commands.
-- Include explicit verification steps, such as `pytest` or a health-check request.
+- Include explicit verification steps, such as `uv run pytest` or a health-check request.
+- For uv projects, ask implementers to use `uv add` for dependency changes and `uv run` for commands.
 - If a task is simple, subagents may be unnecessary; they are most useful when inspection, planning, implementation, and review can be separated cleanly.

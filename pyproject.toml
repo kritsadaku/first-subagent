@@ -1,0 +1,24 @@
+[project]
+name = "agent-studio"
+version = "0.1.0"
+description = "Minimal FastAPI project."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+]
+
+[dependency-groups]
+dev = [
+    "httpx2",
+    "pytest",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = [
+    ".",
+]
